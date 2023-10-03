@@ -1,0 +1,92 @@
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@17/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+  ></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // 사람들은 이걸 더 선호함
+    // 다른 컴포넌트를 넣을때는 꼭 앞이 대문자로 시작해야함
+
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setInverted] = React.useState(false);
+
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+
+      return (
+        <div>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={flipped}
+            />
+            <h4>You wnat to conver {amount}</h4>
+          </div>
+
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={flipped ? amount : Math.round(amount / 60)}
+              id="minutes"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!flipped}
+            />
+          </div>
+          <button onClick={reset}> Reset</button>
+          <button onClick={onInvert}> Flip</button>
+        </div>
+      );
+    }
+
+    function KmToMiles() {
+      return <h3> KM 2 M</h3>;
+    }
+
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {        
+        setIndex(event.target.value);
+      }
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx"> Select Unit</option>
+            <option value="0"> Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please Select your units" : null } 
+          {index === "0" ? <MinutesToHours/> : <KmToMiles/> } 
+        </div>
+      );
+    }
+    // <MinutesToHours />
+    //       <KmToMiles />
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

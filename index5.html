@@ -1,0 +1,66 @@
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@17/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+  ></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // 사람들은 이걸 더 선호함
+    // 다른 컴포넌트를 넣을때는 꼭 앞이 대문자로 시작해야함
+    function App() {
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
+
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+
+      const reset = () => setAmount(0);
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      }
+
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}              
+              disabled={flipped}
+            />
+            <h4>You wnat to conver {amount}</h4>
+          </div>
+
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={flipped ? amount :  Math.round(amount / 60)}
+              id="minutes"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!flipped}
+            />
+          </div>
+          <button onClick={reset}> Reset</button>
+          <button onClick={onFlip}> Flip</button>
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

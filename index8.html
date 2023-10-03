@@ -1,0 +1,54 @@
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@17/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+  ></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Btn({ text, changeValue }) {
+        console.log(text, "was renderd")
+      return (
+        <button
+          onClick={changeValue}
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+            fontSize: 18,
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+    // 아래 코드는 연결된 State가 변경된 컴포넌트만 re render 될수 있게 React에 메모하는 기능
+    const MemorizedBtn = React.memo(Btn);
+    function ConfirmBtn() {
+      return <button>Confirm</button>;
+    }
+
+    function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+      return (
+        <div>
+          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text="Continue" />
+        </div>
+      );
+    }
+    // <MinutesToHours />
+    //       <KmToMiles />
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
